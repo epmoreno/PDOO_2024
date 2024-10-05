@@ -14,12 +14,88 @@ public class McCow {
    private CampoVacas campoVacas;
    private AutoCow autoCow;
    
+   private String nombre;
+   private int filetes;
+   private int bebidas;
+   private int n_empleados;
+   private double dinero;
+   
+   
    public McCow (){
        this.vestibulos = new Vestibulos( new Mesas(), new Bebidas() ,new Empleados() );
        this.campoVacas = new CampoVacas();
        this.autoCow = new AutoCow();
+       this.nombre = "McCow";
+       this.filetes = 0;
+       this.bebidas = 0;
+       this.n_empleados = 1;
+       this.dinero = 25.0;
+       
    }
-    
+   
+   // getters / setters
+   public String getNombre(){
+       return this.nombre;
+   }
+   public  int getFiletes(){
+       return this.filetes;
+   }
+   public  int getBebidas(){
+       return this.bebidas;
+   }
+   public  int getN_empleados(){
+       return this.n_empleados;
+   }
+   public  double getDinero(){
+       return this.dinero;
+   }
+   
+   
+   
+   // Metodos de la clase
+   public void comprarMesa(){
+       
+   }
+   public void venderMesa(){
+       
+   }
+   
+   public void comprarVacas(){
+       
+   }
+   public void venderVacas(){
+       
+   }
+   
+   public void comprarEmpleados(){
+       
+   }
+   public void venderEmpleados(){
+       
+   }
+   
+   public void comprarBebidas(){
+     
+   }
+   public void venderBebidas(){
+       
+   }
+   
+   
+   
+    public static void main(String[] args) {
+        McCow mcCow = new McCow();
+        double money = mcCow.getDinero();
+        String name = mcCow.getNombre();
+        int employers = mcCow.getN_empleados();
+        int drinks = mcCow.getBebidas();
+        int filetes = mcCow.getFiletes();
+        
+        System.out.println(name+" - Filetes: "+filetes+
+                " Empleados: "+employers+
+                " Bebidas: "+drinks+
+                " Dinero: "+money);
+    }
 }
 
 /**
@@ -65,6 +141,11 @@ class Mesas{
         this.experienciaRecolectada = experienciaRecolectada;
         this.precioVenta = precioVenta;
     }
+    
+    
+    public void addMenu(){
+        
+    }
 
 }
 // PENSABER LA IMLPEMENATACION DE BEBIDAS
@@ -104,7 +185,6 @@ class Empleados {
         this.icono = icono;
         this.precioVenta = precioVenta;
     }
-
 }
 
 /**
