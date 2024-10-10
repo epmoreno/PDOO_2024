@@ -3,6 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
 package mccow;
+
+import java.util.ArrayList;
+
 /**
  *
  * @author enrique
@@ -10,47 +13,41 @@ package mccow;
  * Clase Principal
  */
 
-enum NIVELES{INICIAL,INTERMEDIO,DIFICIL}
-enum MENU{HYB,HS}
+enum Niveles{INICIAL,INTERMEDIO,DIFICIL}
 
 public class McCow {
     public static final String BARRA_ESTADO = " ";
-    public static final NIVELES NIVEL_INICIAL = NIVELES.INICIAL;
+    public static final Niveles NIVEL_ACTUAL = Niveles.INICIAL;
     public static final int PRECION_VENTA = 2;
     
-    
-    private Vestibulos vestibulos;
-    private CampoVacas campoVacas;
-    private AutoCow autoCow;
-    private NIVELES nivel;
-   
     private String nombre;
     private int filetes;
     private int bebidas;
-    private int n_empleados;
     private double dinero;
     private Mesas []mesas;
-    //private int n_mesas;
+    private int n_mesas;
     private int mesas_max;
+    private CampoVacas campoVacas;
+    private AutoCow autoCow;
+    private Niveles nivel;
    
    
     public McCow (){
         this.nombre = "McCow";
         this.filetes = 0;
         this.bebidas = 0;
-        this.n_empleados = 1;
         this.dinero = 25.0;
        
-        this.nivel = NIVEL_INICIAL;
+        this.nivel = NIVEL_ACTUAL;
        
         switch(nivel){
-            case NIVELES.INICIAL:
+            case Niveles.INICIAL:
                 this.mesas_max=10;
                 break;
-            case NIVELES.INTERMEDIO:
+            case Niveles.INTERMEDIO:
                 this.mesas_max=15;
                 break;
-            case NIVELES.DIFICIL:
+            case Niveles.DIFICIL:
                 this.mesas_max=20;
                 break;
             default:
@@ -58,8 +55,6 @@ public class McCow {
                 break;
         }
         this.mesas = new Mesas[mesas_max];
-       
-        this.vestibulos = new Vestibulos( this.mesas, new Bebidas() ,new Empleados() );
         this.campoVacas = new CampoVacas();
         this.autoCow = new AutoCow();
     }
@@ -74,30 +69,23 @@ public class McCow {
     public  int getBebidas(){
         return this.bebidas;
     }
-    public  int getN_empleados(){
-        return this.n_empleados;
-    }
     public  double getDinero(){
         return this.dinero;
-    }
-    public int getN_mesas(){
-        return this.vestibulos.getNV_Mesas();
     }
     public int getMax_mesas(){
         return this.mesas_max;
     }
-    public NIVELES getNivel(){
+    public Niveles getNivel(){
         return this.nivel;
     }
     public void informacion(){
         System.out.println(
             this.nombre+" --> \n"+
             "| Filetes: "+this.filetes+"\n"+
-            "| Empleados: "+this.n_empleados+"\n"+
             "| Bebidas: "+this.bebidas+"\n"+
             "| Dinero: "+this.dinero+"\n"+
             "| Max Mesas: "+this.mesas_max+"\n"+
-            "| N Mesas: "+this.getN_mesas()+"\n"+
+            "| N Mesas: "+this.n_mesas+"\n"+
             "| Nivel: "+this.nivel
          );
     }
@@ -105,25 +93,20 @@ public class McCow {
    
    // Metodos de la clase
     public void comprarMesa(){
-        //Añadir un addMesa en Vestibulo
-        this.vestibulos.addMesa();
+        this.mesas[this.n_mesas] = new Mesas();
+        this.n_mesas++;
         this.dinero -= 5;
     }
-    public void venderMesa(){
-
+    public void venderMesa(Mesas mesa){
+        this.mesas[this.n_mesas-1] = null;
+        this.n_mesas--;
+        this.dinero += 5;
     }
 
     public void comprarVacas(){
 
     }
     public void venderVacas(){
-
-    }
-
-    public void comprarEmpleados(){
-
-    }
-    public void venderEmpleados(){
 
     }
 
@@ -156,50 +139,6 @@ public class McCow {
  * 
  * Creacion del Vestibulo
  */
-class Vestibulos{
-    public static final String ICONO = " ";
-    public static final int EXPERIENCIA = 0;
-    private String icono;
-    private int experiencia;
-    
-    protected Mesas []mesas;
-    protected int n_mesas;
-    protected Bebidas bebidas;
-    protected Empleados empleados;
-    
-    public Vestibulos(Mesas []mesas,Bebidas bebidas,Empleados empleados){
-        this.icono = ICONO;
-        this.experiencia = EXPERIENCIA;
-        
-        this.mesas = mesas;
-        this.bebidas = bebidas;
-        this.empleados = empleados;
-        this.n_mesas = 0;
-    }
-    
-    public String getIcono(){
-        return this.icono;
-    }
-    public int getExperiencia(){
-        return this.experiencia;
-    }
-    public int getNV_Mesas(){
-        return this.n_mesas;
-    }
-    public void setNV_Mesas(int numero_mesas){
-        this.n_mesas = numero_mesas;
-    }
-    
-    public void addMesa(){
-        if(this.n_mesas < this.mesas.length){
-            mesas[this.n_mesas] = new Mesas();
-            //mesas[this.n_mesas].addMenu(); // Podriamos menerle el menu a la mesa
-            this.n_mesas++;
-        }else{
-            System.out.println("Numero maximo alcanxzado en este nivel :) ");
-        }
-    }
-}
 class Mesas{
     
     public static final String ICONO = " ";
@@ -211,12 +150,18 @@ class Mesas{
     private int duracionMesa;
     private int experienciaRecolectada;
     private int precioVenta;
+    private Pedido []pedidos;
+    private int n_pedido;
+    private double ingresos;
     
     public Mesas(){
         this.icono = ICONO;
         this.duracionMesa = DURACION;
         this.experienciaRecolectada = EXPERIENCIA_BASICA;
         this.precioVenta = PRECION_VENTA;
+        this.pedidos = new Pedido[2];
+        this.n_pedido = 0;
+        this.ingresos = 0;
     }
     public Mesas(String icono, int duracionMesa, int experienciaRecolectada, int precioVenta){
         this.icono = icono;
@@ -238,17 +183,74 @@ class Mesas{
     public int getPrecioVenta(){
         return this.precioVenta;
     }
-    
-    
-    
-    
-    
-    public void addMenu(){
-        
+    public int getNPedidos(){
+        return this.n_pedido;
     }
-
+    
+    public void anadirMenu(){
+        Hamburguesa h = new Hamburguesa();
+        Bebidas b = new Bebidas();
+        this.pedidos[n_pedido] = new Pedido(b,h);
+        this.n_pedido++;
+    }
+    public void anadirSimple(){
+        Hamburguesa h = new Hamburguesa();
+        this.pedidos[n_pedido] = new Pedido(h);
+        this.n_pedido++;
+    }
+    
+    /**
+     * anadirPedido(Pedido p) *
+     * obtenerPrecioTotal(pedidos)
+     * obtenerExpPedido(pedidos)
+     */
 }
-// icono, precio de venta, suficientes para hacer la clase
+
+/**
+ * 
+ * @author enrique
+ * class Pedido
+ */
+class Pedido{
+    private Bebidas bebida;
+    private Hamburguesa hamburguesa;
+    private int precio;
+    private ArrayList<Object> pedidoRealizado;
+    
+    public Pedido(Bebidas b,Hamburguesa h){
+        this.bebida = b;
+        this.hamburguesa = h;
+        this.pedidoRealizado = new ArrayList<>();
+        this.pedidoRealizado.add(this.bebida);
+        this.pedidoRealizado.add(this.hamburguesa);
+        this.precio=Bebidas.PRECION_VENTA+Hamburguesa.PRECION_VENTA;
+    }
+    public Pedido(Hamburguesa h){
+        this.hamburguesa = h;
+        this.pedidoRealizado.add(h);
+        this.precio=Hamburguesa.PRECION_VENTA;
+    }
+    
+    public void verPedido(){
+        int n_bebidas=0,n_hamburguesas=0;
+        for(Object obj: this.pedidoRealizado){
+            if(obj instanceof Bebidas){
+                n_bebidas++;
+            }
+            else if(obj instanceof Hamburguesa){
+                n_hamburguesas++;
+            }
+        }
+        
+        if(n_bebidas>0 && n_hamburguesas>0){
+            System.out.println("Menu");
+        }
+        if(n_bebidas==0 && n_hamburguesas>0){
+            System.out.println("Te has pedido Simple:");
+        }
+    }
+}
+
 class Bebidas{
     public static final String ICONO = " ";
     public static final int PRECION_VENTA = 2;
@@ -274,23 +276,24 @@ class Bebidas{
     }
 
 }
-class Empleados {
+
+class Hamburguesa{
     public static final String ICONO = " ";
-    public static final int PRECION_VENTA = 2;
+    public static final int PRECION_VENTA = 5;
     
     private String icono;
     private int precioVenta;
     
-    public Empleados(){
+    public Hamburguesa(){
         this.icono = ICONO;
         this.precioVenta = PRECION_VENTA;
     }
-    
-    public Empleados(String icono, int precioVenta){
+    public Hamburguesa(String icono, int precioVenta){
         this.icono = icono;
         this.precioVenta = precioVenta;
     }
     
+    // getters / setters
     public String getIcono(){
         return this.icono;
     }
@@ -298,12 +301,6 @@ class Empleados {
         return this.precioVenta;
     }
 }
-
-/**
- * Debemos hacer una clase Hamburguesa que debera tener lo mismo que bebida
- * y un metodo crear hamburguesa que reste filetes
- */
-class Hamburguesa{}
 
 
 /**
