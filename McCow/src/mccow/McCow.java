@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class McCow {
     public static final String BARRA_ESTADO = " ";
     public static final McCowEnum NIVEL_ACTUAL = McCowEnum.INICIAL;
-    public static final int PRECION_VENTA = 2;
+    public static final int PRECION_VENTA = 2; 
     
     private String nombre;
     private int filetes;
