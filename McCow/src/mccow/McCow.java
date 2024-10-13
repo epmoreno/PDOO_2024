@@ -16,7 +16,6 @@ import java.util.ArrayList;
 public class McCow {
     public static final String BARRA_ESTADO = " ";
     public static final McCowEnum NIVEL_ACTUAL = McCowEnum.INICIAL;
-    public static final int PRECION_VENTA = 2; 
     
     private String nombre;
     private int filetes;
@@ -28,6 +27,7 @@ public class McCow {
     private CampoVacas campoVacas;
     private AutoCow autoCow;
     private McCowEnum nivel;
+    private double expGanada;
    
    
     public McCow (){
@@ -35,6 +35,7 @@ public class McCow {
         this.filetes = 0;
         this.bebidas = 0;
         this.dinero = 25.0;
+        this.expGanada = 0.0;
        
         this.nivel = NIVEL_ACTUAL;
        
@@ -77,6 +78,9 @@ public class McCow {
     public McCowEnum getNivel(){
         return this.nivel;
     }
+    public double getExpGanada(){
+        return this.expGanada;
+    }
     public void informacion(){
         System.out.println(
             this.nombre+" --> \n"+
@@ -85,7 +89,8 @@ public class McCow {
             "| Dinero: "+this.dinero+"\n"+
             "| Max Mesas: "+this.mesas_max+"\n"+
             "| N Mesas: "+this.n_mesas+"\n"+
-            "| Nivel: "+this.nivel
+            "| Nivel: "+this.nivel+"\n"+
+            "| Experiencia Ganada: "+this.expGanada
         );
         System.out.println();
     }
@@ -102,7 +107,7 @@ public class McCow {
         this.n_mesas--;
         this.dinero += 5;
     }
-    public void verPedidoMesas(){
+    public void verPedidoDeTodasMesas(){
         int i = 0;
         if (this.mesas[i].getNPedidos() > 0){
             for(; i<this.n_mesas;i++){
@@ -151,17 +156,10 @@ public class McCow {
     public void comprarVacas(){
 
     }
-    public void venderVacas(){
-
-    }
 
     public void comprarBebidas(){
 
     }
-    public void venderBebidas(){
-
-    }
-   
    
    // MAIN - TEST
     public static void main(String[] args) {
@@ -179,7 +177,7 @@ public class McCow {
           
         mcCow.informacion();
         
-        mcCow.verPedidoMesas();
+        mcCow.verPedidoDeTodasMesas();
         
         mcCow.verGananciasEnCurso();
         System.out.println();
@@ -205,7 +203,7 @@ class Mesas{
     
     public static final String ICONO = " ";
     public static final int DURACION = 2;
-    public static final int PRECION_VENTA = 2;
+    public static final int PRECIO_VENTA = 2;
     
     private String icono;
     private int duracionMesa;
@@ -219,16 +217,19 @@ class Mesas{
         this.icono = ICONO;
         this.duracionMesa = DURACION;
         this.experienciaRecolectada = 0;
-        this.precioVenta = PRECION_VENTA;
+        this.precioVenta = PRECIO_VENTA;
         this.pedidos = new ArrayList<>();
         this.n_pedido = 0;
         this.ingresos = 0;
     }
-    public Mesas(String icono, int duracionMesa, int experienciaRecolectada, int precioVenta){
+    public Mesas(String icono, int duracionMesa, int precioVenta){
         this.icono = icono;
         this.duracionMesa = duracionMesa;
-        this.experienciaRecolectada = experienciaRecolectada;
+        this.experienciaRecolectada = 0;
         this.precioVenta = precioVenta;
+        this.pedidos = new ArrayList<>();
+        this.n_pedido = 0;
+        this.ingresos = 0;
     }
     
     // getters / setters
@@ -271,7 +272,7 @@ class Mesas{
     
     public void verPedidos(){
         for(Pedido pedido: this.pedidos){
-            pedido.verPedido();
+            pedido.verTipoPedido();
         }
     }
 }
@@ -294,18 +295,18 @@ class Pedido{
         this.pedidoRealizado = new ArrayList<>();
         this.pedidoRealizado.add(this.bebida);
         this.pedidoRealizado.add(this.hamburguesa);
-        this.precio=Bebidas.PRECION_VENTA+Hamburguesa.PRECION_VENTA;
+        this.precio=Bebidas.PRECIO_VENTA+Hamburguesa.PRECIO_VENTA;
         this.exp = Bebidas.EXP+Hamburguesa.EXP;
     }
     public Pedido(Hamburguesa h){
         this.hamburguesa = h;
         this.pedidoRealizado = new ArrayList<>();
         this.pedidoRealizado.add(h);
-        this.precio=Hamburguesa.PRECION_VENTA;
+        this.precio=Hamburguesa.PRECIO_VENTA;
         this.exp = Hamburguesa.EXP;
     }
     
-    public void verPedido(){
+    public void verTipoPedido(){
         int n_bebidas=0,n_hamburguesas=0;
         for(Object obj: this.pedidoRealizado){
             if(obj instanceof Bebidas){
@@ -333,7 +334,7 @@ class Pedido{
 class Bebidas{
     public static final String ICONO = " ";
     public static final double EXP = 0.5;
-    public static final int PRECION_VENTA = 2;
+    public static final int PRECIO_VENTA = 2;
     
     private String icono;
     private double exp;
@@ -342,7 +343,7 @@ class Bebidas{
     public Bebidas(){
         this.icono = ICONO;
         this.exp = EXP;
-        this.precioVenta = PRECION_VENTA;
+        this.precioVenta = PRECIO_VENTA;
     }
     public Bebidas(String icono, int precioVenta){
         this.icono = icono;
@@ -366,7 +367,7 @@ class Bebidas{
 class Hamburguesa{
     public static final String ICONO = " ";
     public static final double EXP = 1.5;
-    public static final int PRECION_VENTA = 5;
+    public static final int PRECIO_VENTA = 5;
     
     private String icono;
     private int precioVenta;
@@ -375,7 +376,7 @@ class Hamburguesa{
     public Hamburguesa(){
         this.icono = ICONO;
         this.exp = EXP;
-        this.precioVenta = PRECION_VENTA;
+        this.precioVenta = PRECIO_VENTA;
     }
     public Hamburguesa(String icono, int precioVenta){
         this.icono = icono;
