@@ -28,6 +28,7 @@ public class McCow {
     private CampoVacas campoVacas;
     private AutoCow autoCow;
     private McCowEnum nivel;
+    private double expGanada;
    
    
     public McCow (){
@@ -35,6 +36,7 @@ public class McCow {
         this.filetes = 0;
         this.bebidas = 0;
         this.dinero = 25.0;
+        this.expGanada = 0.0;
        
         this.nivel = NIVEL_ACTUAL;
        
@@ -77,6 +79,9 @@ public class McCow {
     public McCowEnum getNivel(){
         return this.nivel;
     }
+    public double getExpGanada(){
+        return this.expGanada;
+    }
     public void informacion(){
         System.out.println(
             this.nombre+" --> \n"+
@@ -85,7 +90,8 @@ public class McCow {
             "| Dinero: "+this.dinero+"\n"+
             "| Max Mesas: "+this.mesas_max+"\n"+
             "| N Mesas: "+this.n_mesas+"\n"+
-            "| Nivel: "+this.nivel
+            "| Nivel: "+this.nivel+"\n"+
+            "| Experiencia Ganada: "+this.expGanada
         );
         System.out.println();
     }
