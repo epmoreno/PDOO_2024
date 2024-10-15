@@ -213,15 +213,7 @@ class Mesas{
     private int n_pedido;
     private double ingresos;
     
-    public Mesas(){
-        this.icono = ICONO;
-        this.duracionMesa = DURACION;
-        this.experienciaRecolectada = 0;
-        this.precioVenta = PRECIO_VENTA;
-        this.pedidos = new ArrayList<>();
-        this.n_pedido = 0;
-        this.ingresos = 0;
-    }
+    
     public Mesas(String icono, int duracionMesa, int precioVenta){
         this.icono = icono;
         this.duracionMesa = duracionMesa;
@@ -230,6 +222,12 @@ class Mesas{
         this.pedidos = new ArrayList<>();
         this.n_pedido = 0;
         this.ingresos = 0;
+    }
+    public Mesas(){
+        this(ICONO,DURACION,PRECIO_VENTA);
+    }
+    public Mesas(Mesas otraMesa){
+        this(otraMesa.icono,otraMesa.duracionMesa,otraMesa.precioVenta);
     }
     
     // getters / setters
@@ -254,18 +252,22 @@ class Mesas{
     
     public void anadirMenu(){
         Hamburguesa h = new Hamburguesa();
-        Bebidas b = new Bebidas();
+        Bebida b = new Bebida();
         Pedido nuevo = new Pedido(b, h);
+        
         this.pedidos.add(nuevo);
         this.n_pedido++;
+        
         this.ingresos += this.pedidos.getLast().getPrecio();
         this.experienciaRecolectada += this.pedidos.getLast().getExp();
     }
     public void anadirSimple(){
         Hamburguesa h = new Hamburguesa();
         Pedido nuevo = new Pedido(h);
+        
         this.pedidos.add(nuevo);
         this.n_pedido++;
+        
         this.ingresos += this.pedidos.getLast().getPrecio();
         this.experienciaRecolectada += this.pedidos.getLast().getExp();
     }
@@ -283,44 +285,49 @@ class Mesas{
  * class Pedido
  */
 class Pedido{
-    private Bebidas bebida;
+    private Bebida bebida;
     private Hamburguesa hamburguesa;
     private double precio;
     private double exp;
     private ArrayList<Object> pedidoRealizado;
     
-    public Pedido(Bebidas b,Hamburguesa h){
+    public Pedido(Bebida b,Hamburguesa h){
         this.bebida = b;
         this.hamburguesa = h;
         this.pedidoRealizado = new ArrayList<>();
         this.pedidoRealizado.add(this.bebida);
         this.pedidoRealizado.add(this.hamburguesa);
-        this.precio=Bebidas.PRECIO_VENTA+Hamburguesa.PRECIO_VENTA;
-        this.exp = Bebidas.EXP+Hamburguesa.EXP;
+        this.precio=Bebida.PRECIO_VENTA+Hamburguesa.PRECIO_VENTA;
+        this.exp = Bebida.EXP+Hamburguesa.EXP;
     }
     public Pedido(Hamburguesa h){
-        this.hamburguesa = h;
-        this.pedidoRealizado = new ArrayList<>();
-        this.pedidoRealizado.add(h);
+        this(null,h);
         this.precio=Hamburguesa.PRECIO_VENTA;
         this.exp = Hamburguesa.EXP;
+    }
+    public Pedido(Pedido origninal){
+        this(origninal.bebida,origninal.hamburguesa);
     }
     
     public void verTipoPedido(){
         int n_bebidas=0,n_hamburguesas=0;
         for(Object obj: this.pedidoRealizado){
-            if(obj instanceof Bebidas){
+            if(obj instanceof Bebida){
                 n_bebidas++;
             }
             else if(obj instanceof Hamburguesa){
                 n_hamburguesas++;
             }
         }
-        if(n_bebidas>0 && n_hamburguesas>0){
-            System.out.println("Te has pedido: Menu");
-        }
-        if(n_bebidas==0 && n_hamburguesas>0){
-            System.out.println("Te has pedido: Simple");
+        switch (n_bebidas + n_hamburguesas){
+            case 2:
+                System.out.println("Te has pedido: Menu");
+                break;
+            case 1:
+                System.out.println("Te has pedido: Simple");
+                break;
+            default:
+                 System.out.println("Aun no se han hecho pedidos");
         }
     }
     public double getPrecio(){
@@ -331,7 +338,7 @@ class Pedido{
     }
 }
 
-class Bebidas{
+class Bebida{
     public static final String ICONO = " ";
     public static final double EXP = 0.5;
     public static final int PRECIO_VENTA = 2;
@@ -340,15 +347,16 @@ class Bebidas{
     private double exp;
     private int precioVenta;
     
-    public Bebidas(){
-        this.icono = ICONO;
-        this.exp = EXP;
-        this.precioVenta = PRECIO_VENTA;
-    }
-    public Bebidas(String icono, int precioVenta){
+    public Bebida(String icono, int precioVenta){
         this.icono = icono;
         this.exp = EXP;
         this.precioVenta = precioVenta;
+    }
+    public Bebida(){
+        this(ICONO,PRECIO_VENTA);
+    }
+    public Bebida(Bebida original){
+        this(original.icono,original.precioVenta);
     }
     
     // getters / setters
@@ -373,15 +381,16 @@ class Hamburguesa{
     private int precioVenta;
     private double exp;
     
-    public Hamburguesa(){
-        this.icono = ICONO;
-        this.exp = EXP;
-        this.precioVenta = PRECIO_VENTA;
-    }
     public Hamburguesa(String icono, int precioVenta){
         this.icono = icono;
         this.exp = EXP;
         this.precioVenta = precioVenta;
+    }
+    public Hamburguesa(){
+        this(ICONO,PRECIO_VENTA);
+    }
+    public Hamburguesa(Hamburguesa original){
+        this(original.icono,original.precioVenta);
     }
     
     // getters / setters
