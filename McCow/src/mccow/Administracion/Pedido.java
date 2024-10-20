@@ -46,7 +46,17 @@ public class Pedido{
     public double getExp(){
         return this.exp;
     }
-    public TipoPedido getPedido(){
+    public TipoPedido getTipoPedido(){
         return this.tipo;
+    }
+    
+    @Override
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append(" El Pedido {");
+        sb.append(" Tipo = ").append(tipo).append("");
+        sb.append(" Precio = ").append(precio).append("");
+        sb.append(" Experiencia = ").append(exp).append("} ");
+        return sb.toString();
     }
 }

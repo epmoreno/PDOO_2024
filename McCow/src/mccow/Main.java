@@ -13,24 +13,25 @@ public class Main {
         McCow mcCow = new McCow();
         
         // TEST DE FUNCIONES: 
-        mcCow.informacion();
+        System.out.println(mcCow);
         
+        mcCow.comprarMesa();
         mcCow.comprarMesa();
         mcCow.comprarMesa();
        
-        mcCow.comprarMenu();
-        mcCow.comprarMenu();
-        mcCow.comprarSimple();
-          
-        mcCow.informacion();
+        mcCow.comprarMenuTodas();
+        mcCow.comprarMenuTodas();
+        mcCow.comprarSimpleTodas();
+         
+        //mcCow.verInformacionDeTodasMesas();
+        mcCow.recibirDineroExp();
+        //mcCow.verInformacionDeTodasMesas();
         
-        mcCow.verPedidoDeTodasMesas();
+        System.out.println(mcCow);
         
-        mcCow.verGananciasEnCurso();
+        /*mcCow.verMesa(1);
+        mcCow.verMesa(0);*/
         
-        System.out.println();
-        
-        mcCow.verExpEnCurso();
         
         //mcCow.venderMesa();
         
