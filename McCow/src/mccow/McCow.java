@@ -74,9 +74,6 @@ public class McCow {
     public  double getDinero(){
         return this.dinero;
     }
-    public int getMax_mesas(){
-        return this.mesas_max;
-    }
     public int getN_mesas(){
         return this.n_mesas;
     }
@@ -85,6 +82,37 @@ public class McCow {
     }
     public double getExpGanada(){
         return this.expGanada;
+    }
+    public Mesa[] getMesas() {
+        return mesas;
+    }
+
+    public void setMesas(Mesa[] mesas) {
+        this.mesas = mesas;
+    }
+
+    public int getMesas_max() {
+        return mesas_max;
+    }
+
+    public void setMesas_max(int mesas_max) {
+        this.mesas_max = mesas_max;
+    }
+
+    public CampoVaca getCampoVaca() {
+        return campoVaca;
+    }
+
+    public void setCampoVaca(CampoVaca campoVaca) {
+        this.campoVaca = campoVaca;
+    }
+
+    public AutoCow getAutoCow() {
+        return autoCow;
+    }
+
+    public void setAutoCow(AutoCow autoCow) {
+        this.autoCow = autoCow;
     }
     public void verMesa(int n){
         System.out.println("\nMesa Numero "+(n+1)+" : \n"+mesas[n]);
@@ -125,38 +153,12 @@ public class McCow {
             System.out.println(this.mesas[i]);
         }
     }
-
-    public Mesa[] getMesas() {
-        return mesas;
+    public void verInformacionDePradera(){
+        int i = 0;
+        System.err.println(this.campoVaca);
     }
 
-    public void setMesas(Mesa[] mesas) {
-        this.mesas = mesas;
-    }
-
-    public int getMesas_max() {
-        return mesas_max;
-    }
-
-    public void setMesas_max(int mesas_max) {
-        this.mesas_max = mesas_max;
-    }
-
-    public CampoVaca getCampoVaca() {
-        return campoVaca;
-    }
-
-    public void setCampoVaca(CampoVaca campoVaca) {
-        this.campoVaca = campoVaca;
-    }
-
-    public AutoCow getAutoCow() {
-        return autoCow;
-    }
-
-    public void setAutoCow(AutoCow autoCow) {
-        this.autoCow = autoCow;
-    }
+    
     public void comprarMenuTodas(){
         int i = 0;
         for(; i<this.n_mesas;i++){
@@ -213,7 +215,7 @@ public class McCow {
     }
 
     public void comprarVacas(){
-
+        
     }
 
     public void comprarBebidas(){
