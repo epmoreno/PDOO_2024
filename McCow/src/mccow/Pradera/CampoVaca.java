@@ -55,8 +55,20 @@ public class CampoVaca {
         Vaca v = new Vaca();
         int size_anter = this.listaVacas.size();
         this.listaVacas.add(v);
+        this.listaVacas.getLast().setNumeroVaca(this.cantidad_vacas);
         this.cantidad_vacas++;
         if(size_anter < this.listaVacas.size()){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
+    public boolean deleteVaca(){
+        int size_anter = this.listaVacas.size();
+        this.listaVacas.removeFirst();
+        this.cantidad_vacas--;
+        if(size_anter >= this.listaVacas.size()){
             return true;
         }else{
             return false;

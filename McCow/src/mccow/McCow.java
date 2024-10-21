@@ -8,6 +8,8 @@ import mccow.Administracion.Mesa;
 import mccow.Enums.McCowEnum;
 import mccow.Pradera.CampoVaca;
 import mccow.AutoCar.AutoCow;
+import mccow.Pradera.Vaca;
+import mccow.Almacen.Bebida;
 
 /**
  *
@@ -52,7 +54,7 @@ public class McCow {
                 this.mesas_max=20;
                 break;
             default:
-                System.out.println("Error en la eleccion del nivel");
+                System.err.println("Error en la eleccion del nivel");
                 break;
         }
         this.mesas = new Mesa[mesas_max];
@@ -154,8 +156,7 @@ public class McCow {
         }
     }
     public void verInformacionDePradera(){
-        int i = 0;
-        System.err.println(this.campoVaca);
+        System.out.println(this.campoVaca);
     }
 
     
@@ -178,7 +179,7 @@ public class McCow {
             for(; i<this.n_mesas;i++){
                ingresoT += this.mesas[i].getIngresos();
             }
-            System.err.println("Ingresos Totales: "+ingresoT);
+            System.out.println("Ingresos Totales: "+ingresoT);
             
         }
     }
@@ -214,12 +215,45 @@ public class McCow {
         }
     }
 
-    public void comprarVacas(){
-        
+    public boolean comprarVaca(){
+        int cant_original = this.campoVaca.getCantidad_vacas();
+        this.campoVaca.addVaca();
+        if(this.campoVaca.getCantidad_vacas()> cant_original){
+            this.dinero -= Vaca.PRECIOCOMPRA;
+            return true;
+        }else{
+            return false;
+        }
+    }
+    public boolean venderVaca(){
+        int cant_original = this.campoVaca.getCantidad_vacas();
+        this.campoVaca.deleteVaca();
+        if(this.campoVaca.getCantidad_vacas()< cant_original){
+            this.dinero += Vaca.PRECIOVENTA;
+            return true;
+        }else{
+            return false;
+        }
     }
 
-    public void comprarBebidas(){
-
+    public boolean comprarBebidas(){
+        int cant_anter = this.bebidas;
+        this.bebidas++;
+        this.dinero -= Bebida.PRECIO_VENTA;
+        if(this.bebidas > cant_anter){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
+    public boolean anadirFiletes(){
+        int cant_filetes = this.filetes;
+        this.filetes += this.campoVaca.recogerFiletes();
+        if(cant_filetes < this.filetes)
+            return true;
+        else
+            return false;   
     }
 }
 
