@@ -4,7 +4,12 @@
  */
 package mccow;
 
-import java.util.ArrayList;
+import mccow.Administracion.Mesa;
+import mccow.Enums.McCowEnum;
+import mccow.Pradera.CampoVaca;
+import mccow.AutoCar.AutoCow;
+import mccow.Pradera.Vaca;
+import mccow.Almacen.Bebida;
 
 /**
  *
@@ -21,15 +26,14 @@ public class McCow {
     private int filetes;
     private int bebidas;
     private double dinero;
-    private Mesas []mesas;
+    private Mesa []mesas;
     private int n_mesas;
     private int mesas_max;
-    private CampoVacas campoVacas;
+    private CampoVaca campoVaca;
     private AutoCow autoCow;
     private McCowEnum nivel;
     private double expGanada;
-   
-   
+
     public McCow (){
         this.nombre = "McCow";
         this.filetes = 0;
@@ -50,12 +54,12 @@ public class McCow {
                 this.mesas_max=20;
                 break;
             default:
-                System.out.println("Error en la eleccion del nivel");
+                System.err.println("Error en la eleccion del nivel");
                 break;
         }
-        this.mesas = new Mesas[mesas_max];
+        this.mesas = new Mesa[mesas_max];
         this.n_mesas = 0;
-        this.campoVacas = new CampoVacas();
+        this.campoVaca = new CampoVaca();
         this.autoCow = new AutoCow();
     }
    
@@ -72,8 +76,8 @@ public class McCow {
     public  double getDinero(){
         return this.dinero;
     }
-    public int getMax_mesas(){
-        return this.mesas_max;
+    public int getN_mesas(){
+        return this.n_mesas;
     }
     public McCowEnum getNivel(){
         return this.nivel;
@@ -81,24 +85,61 @@ public class McCow {
     public double getExpGanada(){
         return this.expGanada;
     }
-    public void informacion(){
-        System.out.println(
-            this.nombre+" --> \n"+
-            "| Filetes: "+this.filetes+"\n"+
-            "| Bebidas: "+this.bebidas+"\n"+
-            "| Dinero: "+this.dinero+"\n"+
-            "| Max Mesas: "+this.mesas_max+"\n"+
-            "| N Mesas: "+this.n_mesas+"\n"+
-            "| Nivel: "+this.nivel+"\n"+
-            "| Experiencia Ganada: "+this.expGanada
-        );
-        System.out.println();
+    public Mesa[] getMesas() {
+        return mesas;
+    }
+
+    public void setMesas(Mesa[] mesas) {
+        this.mesas = mesas;
+    }
+
+    public int getMesas_max() {
+        return mesas_max;
+    }
+
+    public void setMesas_max(int mesas_max) {
+        this.mesas_max = mesas_max;
+    }
+
+    public CampoVaca getCampoVaca() {
+        return campoVaca;
+    }
+
+    public void setCampoVaca(CampoVaca campoVaca) {
+        this.campoVaca = campoVaca;
+    }
+
+    public AutoCow getAutoCow() {
+        return autoCow;
+    }
+
+    public void setAutoCow(AutoCow autoCow) {
+        this.autoCow = autoCow;
+    }
+    public void verMesa(int n){
+        System.out.println("\nMesa Numero "+(n+1)+" : \n"+mesas[n]);
+    }
+    
+    @Override
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("McCow {\n");
+        sb.append("     Filetes = ").append(filetes).append("\n");
+        sb.append("     Bebidas = ").append(bebidas).append("\n");
+        sb.append("     Dinero = ").append(dinero).append("\n");
+        sb.append("     Maximo de Mesas = ").append(mesas_max).append("\n");
+        sb.append("     Numero de Mesas'(Activas)' = ").append(n_mesas).append("\n");
+        sb.append("     Nivel Actual = ").append(nivel).append("\n");
+        sb.append("     Experiencia actual = ").append(expGanada).append("\n");
+        sb.append("}\n");
+        return sb.toString();
     }
    
    
    // Metodos de la clase
     public void comprarMesa(){
-        this.mesas[this.n_mesas] = new Mesas();
+        this.mesas[this.n_mesas] = new Mesa();
+        this.mesas[this.n_mesas].setNumeroMesa(this.n_mesas);
         this.n_mesas++;
         this.dinero -= 5;
     }
@@ -107,24 +148,25 @@ public class McCow {
         this.n_mesas--;
         this.dinero += 5;
     }
-    public void verPedidoDeTodasMesas(){
+    public void verInformacionDeTodasMesas(){
         int i = 0;
-        if (this.mesas[i].getNPedidos() > 0){
-            for(; i<this.n_mesas;i++){
-                System.out.println("Pedido de la mesa nº"+(i+1));
-                this.mesas[i].verPedidos();
-                System.out.println("\n");
-            }
-            
+        for(; i<this.n_mesas;i++){
+            System.out.println("Informacion de la mesa nº"+(i+1));
+            System.out.println(this.mesas[i]);
         }
     }
-    public void comprarMenu(){
+    public void verInformacionDePradera(){
+        System.out.println(this.campoVaca);
+    }
+
+    
+    public void comprarMenuTodas(){
         int i = 0;
         for(; i<this.n_mesas;i++){
             this.mesas[i].anadirMenu();
         }  
     }
-    public void comprarSimple(){
+    public void comprarSimpleTodas(){
         int i = 0;
         for(; i<this.n_mesas;i++){
             this.mesas[i].anadirSimple();
@@ -132,288 +174,86 @@ public class McCow {
     }
     public void verGananciasEnCurso(){
         int i = 0;
-        if (this.mesas[i].getNPedidos() > 0){
+        int ingresoT = 0;
+        if (this.mesas[i].getN_pedido()> 0){
             for(; i<this.n_mesas;i++){
-               System.out.println("Dinero obtenido de la mesa nº"+(i+1)+": "+
-               this.mesas[i].getIngresos());
-               
+               ingresoT += this.mesas[i].getIngresos();
             }
+            System.out.println("Ingresos Totales: "+ingresoT);
             
         }
     }
     public void verExpEnCurso(){
         int i = 0;
-        if (this.mesas[i].getNPedidos() > 0){
+        if (this.mesas[i].getN_pedido()> 0){
+            int expT=0;
             for(; i<this.n_mesas;i++){
-               System.out.println("Experiencia obtenido de la mesa nº"+(i+1)+": "+
-               this.mesas[i].getEXP());
-               
+               expT += this.mesas[i].getExperienciaRecolectada();
             }
-            
+            System.out.println("Experiencia Total Obtenida es de: "+expT);
+        }
+    }
+    
+    public void recibirDineroExp(){
+        int i=0;
+        for(;i<this.n_mesas;i++){
+            this.dinero += this.mesas[i].getIngresos();
+            this.mesas[i].setIngresos(0);
+            this.expGanada += this.mesas[i].getExperienciaRecolectada();
+            this.mesas[i].setExperienciaRecolectada(0.0);
+            limpiarMesa(i);
+        }
+    }
+    
+    public boolean limpiarMesa(int m){
+        this.mesas[m].eliminarPedidos();
+        if(this.mesas[m].getN_pedido() == 0){
+            return true;
+        }else{
+            System.err.println("La mesa no se ha podido limpiar");
+            return false;
         }
     }
 
-    public void comprarVacas(){
-
-    }
-
-    public void comprarBebidas(){
-
-    }
-   
-   // MAIN - TEST
-    public static void main(String[] args) {
-        McCow mcCow = new McCow();
-        
-        // TEST DE FUNCIONES: 
-        mcCow.informacion();
-        
-        mcCow.comprarMesa();
-        mcCow.comprarMesa();
-       
-        mcCow.comprarMenu();
-        mcCow.comprarMenu();
-        mcCow.comprarSimple();
-          
-        mcCow.informacion();
-        
-        mcCow.verPedidoDeTodasMesas();
-        
-        mcCow.verGananciasEnCurso();
-        System.out.println();
-        mcCow.verExpEnCurso();
-        
-        //mcCow.venderMesa();
-        
-        //mcCow.informacion();
-        
-        
-
-    }
-    
-}
-
-/**
- * 
- * @author enrique
- * 
- * Creacion del Vestibulo
- */
-class Mesas{
-    
-    public static final String ICONO = " ";
-    public static final int DURACION = 2;
-    public static final int PRECIO_VENTA = 2;
-    
-    private String icono;
-    private int duracionMesa;
-    private double experienciaRecolectada;
-    private int precioVenta;
-    private ArrayList<Pedido> pedidos;
-    private int n_pedido;
-    private double ingresos;
-    
-    public Mesas(){
-        this.icono = ICONO;
-        this.duracionMesa = DURACION;
-        this.experienciaRecolectada = 0;
-        this.precioVenta = PRECIO_VENTA;
-        this.pedidos = new ArrayList<>();
-        this.n_pedido = 0;
-        this.ingresos = 0;
-    }
-    public Mesas(String icono, int duracionMesa, int precioVenta){
-        this.icono = icono;
-        this.duracionMesa = duracionMesa;
-        this.experienciaRecolectada = 0;
-        this.precioVenta = precioVenta;
-        this.pedidos = new ArrayList<>();
-        this.n_pedido = 0;
-        this.ingresos = 0;
-    }
-    
-    // getters / setters
-    public String getIcono(){
-        return this.icono;
-    }
-    public int getDuracion(){
-        return this.duracionMesa;
-    }
-    public double getEXP(){
-        return this.experienciaRecolectada;
-    }
-    public int getPrecioVenta(){
-        return this.precioVenta;
-    }
-    public int getNPedidos(){
-        return this.n_pedido;
-    }
-    public double getIngresos(){
-        return this.ingresos;
-    }
-    
-    public void anadirMenu(){
-        Hamburguesa h = new Hamburguesa();
-        Bebidas b = new Bebidas();
-        Pedido nuevo = new Pedido(b, h);
-        this.pedidos.add(nuevo);
-        this.n_pedido++;
-        this.ingresos += this.pedidos.getLast().getPrecio();
-        this.experienciaRecolectada += this.pedidos.getLast().getExp();
-    }
-    public void anadirSimple(){
-        Hamburguesa h = new Hamburguesa();
-        Pedido nuevo = new Pedido(h);
-        this.pedidos.add(nuevo);
-        this.n_pedido++;
-        this.ingresos += this.pedidos.getLast().getPrecio();
-        this.experienciaRecolectada += this.pedidos.getLast().getExp();
-    }
-    
-    public void verPedidos(){
-        for(Pedido pedido: this.pedidos){
-            pedido.verTipoPedido();
+    public boolean comprarVaca(){
+        int cant_original = this.campoVaca.getCantidad_vacas();
+        this.campoVaca.addVaca();
+        if(this.campoVaca.getCantidad_vacas()> cant_original){
+            this.dinero -= Vaca.PRECIOCOMPRA;
+            return true;
+        }else{
+            return false;
         }
     }
-}
-
-/**
- * 
- * @author enrique
- * class Pedido
- */
-class Pedido{
-    private Bebidas bebida;
-    private Hamburguesa hamburguesa;
-    private double precio;
-    private double exp;
-    private ArrayList<Object> pedidoRealizado;
-    
-    public Pedido(Bebidas b,Hamburguesa h){
-        this.bebida = b;
-        this.hamburguesa = h;
-        this.pedidoRealizado = new ArrayList<>();
-        this.pedidoRealizado.add(this.bebida);
-        this.pedidoRealizado.add(this.hamburguesa);
-        this.precio=Bebidas.PRECIO_VENTA+Hamburguesa.PRECIO_VENTA;
-        this.exp = Bebidas.EXP+Hamburguesa.EXP;
-    }
-    public Pedido(Hamburguesa h){
-        this.hamburguesa = h;
-        this.pedidoRealizado = new ArrayList<>();
-        this.pedidoRealizado.add(h);
-        this.precio=Hamburguesa.PRECIO_VENTA;
-        this.exp = Hamburguesa.EXP;
-    }
-    
-    public void verTipoPedido(){
-        int n_bebidas=0,n_hamburguesas=0;
-        for(Object obj: this.pedidoRealizado){
-            if(obj instanceof Bebidas){
-                n_bebidas++;
-            }
-            else if(obj instanceof Hamburguesa){
-                n_hamburguesas++;
-            }
-        }
-        if(n_bebidas>0 && n_hamburguesas>0){
-            System.out.println("Te has pedido: Menu");
-        }
-        if(n_bebidas==0 && n_hamburguesas>0){
-            System.out.println("Te has pedido: Simple");
+    public boolean venderVaca(){
+        int cant_original = this.campoVaca.getCantidad_vacas();
+        this.campoVaca.deleteVaca();
+        if(this.campoVaca.getCantidad_vacas()< cant_original){
+            this.dinero += Vaca.PRECIOVENTA;
+            return true;
+        }else{
+            return false;
         }
     }
-    public double getPrecio(){
-        return this.precio;
+
+    public boolean comprarBebidas(){
+        int cant_anter = this.bebidas;
+        this.bebidas++;
+        this.dinero -= Bebida.PRECIO_VENTA;
+        if(this.bebidas > cant_anter){
+            return true;
+        }else{
+            return false;
+        }
     }
-    public double getExp(){
-        return this.exp;
+    
+    public boolean anadirFiletes(){
+        int cant_filetes = this.filetes;
+        this.filetes += this.campoVaca.recogerFiletes();
+        if(cant_filetes < this.filetes)
+            return true;
+        else
+            return false;   
     }
 }
 
-class Bebidas{
-    public static final String ICONO = " ";
-    public static final double EXP = 0.5;
-    public static final int PRECIO_VENTA = 2;
-    
-    private String icono;
-    private double exp;
-    private int precioVenta;
-    
-    public Bebidas(){
-        this.icono = ICONO;
-        this.exp = EXP;
-        this.precioVenta = PRECIO_VENTA;
-    }
-    public Bebidas(String icono, int precioVenta){
-        this.icono = icono;
-        this.exp = EXP;
-        this.precioVenta = precioVenta;
-    }
-    
-    // getters / setters
-    public String getIcono(){
-        return this.icono;
-    }
-    public int getPrecioVenta(){
-        return this.precioVenta;
-    }
-    public double getExperiencia(){
-        return this.exp;
-    }
-
-}
-
-class Hamburguesa{
-    public static final String ICONO = " ";
-    public static final double EXP = 1.5;
-    public static final int PRECIO_VENTA = 5;
-    
-    private String icono;
-    private int precioVenta;
-    private double exp;
-    
-    public Hamburguesa(){
-        this.icono = ICONO;
-        this.exp = EXP;
-        this.precioVenta = PRECIO_VENTA;
-    }
-    public Hamburguesa(String icono, int precioVenta){
-        this.icono = icono;
-        this.exp = EXP;
-        this.precioVenta = precioVenta;
-    }
-    
-    // getters / setters
-    public String getIcono(){
-        return this.icono;
-    }
-    public int getPrecioVenta(){
-        return this.precioVenta;
-    }
-    public double getExperiencia(){
-        return this.exp;
-    }
-}
-
-
-/**
- * 
- * @author enrique
- * 
- * Creacion del Campo de Vacas
- */
-
-class CampoVacas{
-    
-}
-
-/**
- * 
- * @author enrique
- * 
- * Creacion del AutoCow
- */
-class AutoCow {
-    
-}
