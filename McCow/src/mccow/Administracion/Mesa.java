@@ -7,6 +7,7 @@ package mccow.Administracion;
 import mccow.Almacen.Bebida;
 import mccow.Almacen.Hamburguesa;
 import java.util.ArrayList;
+import mccow.Enums.TipoPedido;
 
 /**
  *
@@ -145,5 +146,13 @@ public class Mesa{
             this.pedidos.remove((i));
         }
         this.n_pedido = 0;
+    }
+    
+    public ArrayList<TipoPedido> getTipoPedido(){
+        ArrayList<TipoPedido> tp = new ArrayList<>();
+        for(int i = 0; i<this.pedidos.size(); i++){
+            tp.add(this.pedidos.get(i).getTipoPedido());
+        }
+        return tp;
     }
 }
