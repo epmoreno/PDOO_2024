@@ -40,6 +40,12 @@ public class MesaView extends javax.swing.JPanel {
         btnMesa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mccow/Imagenes/MesaJapon.png"))); // NOI18N
         btnMesa.setBorderPainted(false);
         btnMesa.setContentAreaFilled(false);
+        btnMesa.setOpaque(true);
+        btnMesa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMesaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -52,6 +58,14 @@ public class MesaView extends javax.swing.JPanel {
             .addComponent(btnMesa, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnMesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMesaActionPerformed
+        btnMesa.hide();
+        /*boolean visible = false;
+        if(!visible){
+            btnMesa.setOpaque(visible);
+        }*/
+    }//GEN-LAST:event_btnMesaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
