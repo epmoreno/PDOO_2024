@@ -11,15 +11,34 @@ import mccow.Administracion.Mesa;
  * @author enrique
  */
 public class MesaView extends javax.swing.JPanel {
-    Mesa mesa;
+    protected Mesa mesa;
+    protected boolean vision;
 
     /**
      * Creates new form MesaView
      */
     public MesaView() {
         initComponents();
-        mesa = new Mesa();
+        this.mesa = new Mesa();
+        this.vision = false;
+        this.setVisible(false);
         
+    }
+    
+    public boolean getVision(){
+        return this.vision;
+    }
+    public void setVision(boolean v){
+        this.vision = v;
+    }
+    public void cambiarVision(){
+        if(this.vision){
+            this.setVision(false);
+            this.setVisible(false);
+        }else{
+            this.setVision(true);
+            this.setVisible(true);
+        }
     }
 
     /**
@@ -37,10 +56,13 @@ public class MesaView extends javax.swing.JPanel {
         setForeground(null);
         setOpaque(false);
 
+        btnMesa.setBackground(null);
+        btnMesa.setForeground(null);
         btnMesa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mccow/Imagenes/MesaJapon.png"))); // NOI18N
         btnMesa.setBorderPainted(false);
         btnMesa.setContentAreaFilled(false);
-        btnMesa.setOpaque(true);
+        btnMesa.setFocusPainted(false);
+        btnMesa.setFocusable(false);
         btnMesa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnMesaActionPerformed(evt);
@@ -59,12 +81,13 @@ public class MesaView extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    
     private void btnMesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMesaActionPerformed
-        btnMesa.hide();
-        /*boolean visible = false;
-        if(!visible){
-            btnMesa.setOpaque(visible);
-        }*/
+        /**
+         * Eleccion de menus
+         */
+        this.hide();
+        
     }//GEN-LAST:event_btnMesaActionPerformed
 
 

@@ -12,30 +12,19 @@ import java.util.List;
  * @author enrique
  */
 public class MainView extends javax.swing.JFrame {
-    //List<MesaView> mesasView1 = new ArrayList<>();
-    //List<MesaView> mesasView2 = new ArrayList<>();
-    MesaView mesasView3 = new MesaView();
+    protected List<MesaView> mesasView1 = new ArrayList<>();
+    protected List<MesaView> mesasView2 = new ArrayList<>();
+    protected MesaView mesasView3 = new MesaView();
     /**
      * Creates new form prueba
      */
     public MainView() {
         initComponents();
         
-        /*for(int i = 0;i<6;i++){
-            mesasView1.add(new MesaView());
-        }
-        for(MesaView m: mesasView1){
-            pnlMesas1.add(m);
-        }
+        crearNivelInicial();
+        crearNivelIntermedio();
+        crearNivelFinal();
         
-        for(int i = 0;i<4;i++){
-            mesasView2.add(new MesaView());
-        }
-        for(MesaView m2: mesasView2){
-            pnlMesas2.add(m2);
-        }*/
-        
-        pnlMesas3.add(mesasView3);
     }
 
     /**
@@ -50,6 +39,9 @@ public class MainView extends javax.swing.JFrame {
         pnlMesas1 = new javax.swing.JPanel();
         pnlMesas2 = new javax.swing.JPanel();
         pnlMesas3 = new javax.swing.JPanel();
+        pnlAdministracion = new javax.swing.JPanel();
+        btnCompraMesa = new javax.swing.JButton();
+        btnVentaMesa = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -61,15 +53,121 @@ public class MainView extends javax.swing.JFrame {
         pnlMesas2.setLayout(new java.awt.GridLayout(2, 2));
         getContentPane().add(pnlMesas2, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 290, 310, 310));
 
+        pnlMesas3.setOpaque(false);
         pnlMesas3.setLayout(new java.awt.GridBagLayout());
-        getContentPane().add(pnlMesas3, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 100, 120, 90));
+        getContentPane().add(pnlMesas3, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 100, 120, 110));
+
+        pnlAdministracion.setBackground(new java.awt.Color(255, 0, 0));
+        pnlAdministracion.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        pnlAdministracion.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btnCompraMesa.setText("Comprar Mesa");
+        btnCompraMesa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCompraMesaActionPerformed(evt);
+            }
+        });
+        pnlAdministracion.add(btnCompraMesa, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 160, -1));
+
+        btnVentaMesa.setText("Vender Mesa");
+        btnVentaMesa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVentaMesaActionPerformed(evt);
+            }
+        });
+        pnlAdministracion.add(btnVentaMesa, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 160, -1));
+
+        getContentPane().add(pnlAdministracion, new org.netbeans.lib.awtextra.AbsoluteConstraints(940, 20, 160, 620));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mccow/Imagenes/SueloBricks.png"))); // NOI18N
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, 1030, 660));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, 890, 660));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnCompraMesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCompraMesaActionPerformed
+        boolean comprado = false;
+        /**Mesa Iniciales**/
+        for(MesaView mIni : mesasView1){
+            if(!comprado && !mIni.getVision()){
+                mIni.cambiarVision();
+                comprado = true;
+            }
+            if(comprado){
+                break;
+            }
+        }
+        /**Mesas Intermedias**/
+        for(MesaView mInter : mesasView2){
+            if(!comprado && !mInter.getVision()){
+                mInter.cambiarVision();
+                comprado = true;
+            }
+            if(comprado){
+                break;
+            }
+        }
+        /**Mesa Final**/
+        if(!comprado && !mesasView3.getVision()){
+            mesasView3.cambiarVision();
+            comprado = true;
+        }
+        
+    }//GEN-LAST:event_btnCompraMesaActionPerformed
+
+    private void btnVentaMesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVentaMesaActionPerformed
+        boolean vendido = false;
+        /**Mesa Final**/
+        if(!vendido && mesasView3.getVision()){
+            mesasView3.cambiarVision();
+            vendido = true;
+        }
+        /**Mesas Intermedias**/
+        
+        for(MesaView mInter : mesasView2){
+            if(!vendido && mInter.getVision()){
+                mInter.cambiarVision();
+                vendido = true;
+            }
+            if(vendido){
+                break;
+            }
+        }
+        /**Mesa Iniciales**/
+        int smV1 = mesasView1.size();
+        for(int i = smV1-1; i>=0; i--){
+            if(!vendido && mesasView1.get(i).getVision()){
+                mesasView1.get(i).cambiarVision();
+                vendido = true;
+            }
+            if(vendido){
+                break;
+            }
+        }
+        
+    }//GEN-LAST:event_btnVentaMesaActionPerformed
+
+    private void crearNivelInicial(){
+        for(int i = 0;i<6;i++){
+            mesasView1.add(new MesaView());
+        }
+        for(MesaView m: mesasView1){
+            pnlMesas1.add(m);
+        }
+    }
+    private void crearNivelIntermedio(){
+        for(int i = 0;i<4;i++){
+            mesasView2.add(new MesaView());
+        }
+        for(MesaView m2: mesasView2){
+            pnlMesas2.add(m2);
+        }
+    }
+    private void crearNivelFinal(){
+        pnlMesas3.add(mesasView3);
+    }
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -107,7 +205,10 @@ public class MainView extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCompraMesa;
+    private javax.swing.JButton btnVentaMesa;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel pnlAdministracion;
     private javax.swing.JPanel pnlMesas1;
     private javax.swing.JPanel pnlMesas2;
     private javax.swing.JPanel pnlMesas3;
