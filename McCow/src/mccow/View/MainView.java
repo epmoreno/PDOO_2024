@@ -12,8 +12,8 @@ import java.util.List;
  * @author enrique
  */
 public class MainView extends javax.swing.JFrame {
-    List<MesaView> mesasView1 = new ArrayList<>();
-    List<MesaView> mesasView2 = new ArrayList<>();
+    //List<MesaView> mesasView1 = new ArrayList<>();
+    //List<MesaView> mesasView2 = new ArrayList<>();
     MesaView mesasView3 = new MesaView();
     /**
      * Creates new form prueba
@@ -21,7 +21,7 @@ public class MainView extends javax.swing.JFrame {
     public MainView() {
         initComponents();
         
-        for(int i = 0;i<6;i++){
+        /*for(int i = 0;i<6;i++){
             mesasView1.add(new MesaView());
         }
         for(MesaView m: mesasView1){
@@ -33,7 +33,7 @@ public class MainView extends javax.swing.JFrame {
         }
         for(MesaView m2: mesasView2){
             pnlMesas2.add(m2);
-        }
+        }*/
         
         pnlMesas3.add(mesasView3);
     }
