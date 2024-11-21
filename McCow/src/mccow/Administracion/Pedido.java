@@ -37,6 +37,7 @@ public class Pedido{
         this.exp = Hamburguesa.EXP;
         this.tipo = TipoPedido.SIMPLE;
     }
+
     public Pedido(Pedido origninal){
         this(origninal.bebida,origninal.hamburguesa);
     }

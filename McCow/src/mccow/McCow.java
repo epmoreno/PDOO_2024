@@ -159,7 +159,12 @@ public class McCow {
         System.out.println(this.campoVaca);
     }
 
-    
+    public void generarPedido(){
+        int i = 0;
+        for(; i<this.n_mesas;i++){
+            this.mesas[i].generarPedido();
+        }  
+    }
     public void comprarMenuTodas(){
         int i = 0;
         for(; i<this.n_mesas;i++){

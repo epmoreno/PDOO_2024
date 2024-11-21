@@ -22,9 +22,12 @@ public class Main {
         
         //COMPRAMOS COMIDA
         System.out.println("\n# Compramos dos menus y una simple");
-            mcCow.comprarMenuTodas();
-            mcCow.comprarMenuTodas();
-            mcCow.comprarSimpleTodas();
+            mcCow.generarPedido();
+            mcCow.generarPedido();
+            mcCow.generarPedido();
+            //mcCow.comprarMenuTodas();
+            //mcCow.comprarMenuTodas();
+            //mcCow.comprarSimpleTodas();
             mcCow.verInformacionDeTodasMesas();
             
         //MOSTRAMOS INFOMRACION DE LAS MESAS   

@@ -47,9 +47,11 @@ public class MainView extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        pnlMesas1.setOpaque(false);
         pnlMesas1.setLayout(new java.awt.GridLayout(2, 3));
         getContentPane().add(pnlMesas1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 270, 370, 310));
 
+        pnlMesas2.setOpaque(false);
         pnlMesas2.setLayout(new java.awt.GridLayout(2, 2));
         getContentPane().add(pnlMesas2, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 290, 310, 310));
 

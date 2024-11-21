@@ -7,6 +7,7 @@ package mccow.Administracion;
 import mccow.Almacen.Bebida;
 import mccow.Almacen.Hamburguesa;
 import java.util.ArrayList;
+import java.util.Random;
 import mccow.Enums.TipoPedido;
 
 /**
@@ -154,5 +155,44 @@ public class Mesa{
             tp.add(this.pedidos.get(i).getTipoPedido());
         }
         return tp;
+    }
+    
+    public boolean generarPedido(){
+        Random nuevo_rndn = new Random();
+        int rndn = nuevo_rndn.nextInt(2);
+        boolean generado = false;
+        
+        switch (rndn) {
+            case 0 -> {
+                //MENU
+                Hamburguesa hM = new Hamburguesa();
+                Bebida bM = new Bebida();
+                Pedido menu = new Pedido(bM, hM);
+
+                this.pedidos.add(menu);
+                this.n_pedido++;
+
+                this.ingresos += this.pedidos.getLast().getPrecio();
+                this.experienciaRecolectada += this.pedidos.getLast().getExp();
+                generado = true;
+            }
+            case 1 -> {
+                //SIMPLE
+                Hamburguesa hS = new Hamburguesa();
+                Pedido simple = new Pedido(hS);
+
+                this.pedidos.add(simple);
+                this.n_pedido++;
+
+                this.ingresos += this.pedidos.getLast().getPrecio();
+                this.experienciaRecolectada += this.pedidos.getLast().getExp();
+                generado = true;
+            }
+            default -> throw new AssertionError();
+        }
+        if(generado)
+            return generado;
+        else
+            return false;
     }
 }
